@@ -1,0 +1,6 @@
+PyMuPDF
+google-genai
+fastapi
+uvicorn
+gradio
+python-dotenv
