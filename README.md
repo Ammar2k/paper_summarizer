@@ -50,17 +50,14 @@ paper_simplifier
 
 ## Usage Guidelines
 
-1. Start the FastAPI backend:
-   ```
-   uvicorn src.backend.main:app --reload
-   ```
+1. Ensure you have created a `.env` file in the root directory with your `GOOGLE_API_KEY`. You can use `.env.example` as a template.
 
-2. Launch the Gradio interface:
+2. Start the application:
    ```
    python src/app.py
    ```
 
-3. Open the provided link in your browser to access the chat application.
+3. Open the Gradio interface link (usually http://127.0.0.1:7860 or similar, as indicated in your terminal) in your browser to access the application. The FastAPI backend will be running concurrently.
 
 ## Overview of the Application
 
