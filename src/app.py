@@ -12,6 +12,12 @@ def run_gradio():
 if __name__ == "__main__":
     # Start FastAPI backend in a separate thread
     fastapi_thread = threading.Thread(target=run_fastapi)
+    fastapi_thread.daemon = True  # Set as a daemon thread
     fastapi_thread.start()
     # Launch the Gradio interface in the main thread
-    run_gradio()
+    try:
+        run_gradio()
+    except KeyboardInterrupt:
+        print("Shutting down Gradio interface...")
+    finally:
+        print("Exiting application...")
