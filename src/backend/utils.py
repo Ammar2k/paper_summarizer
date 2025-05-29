@@ -20,11 +20,11 @@ def summarize_text(text: str) -> str:
     try:
         response = client.models.generate_content(
             model="gemini-1.5-flash-8b-001",
-            contents=f"Summarize the following paper in a structured way. "
-            "Explain the main points, methods, results, and conclusion."
-            "Avoid going into mathematical details:\n\n{text}"
+            contents=f"""Summarize the following paper in a structured way.
+            Explain the main points, methods, results, and conclusion.
+            Avoid going into mathematical details:\n\n{text}"""
         )
-        print(text)
+        # print(text)
         return response.text.strip()
     except Exception as e:
         print(f"An error occurred while summarizing the text: {e}")
