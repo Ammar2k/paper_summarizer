@@ -19,7 +19,7 @@ def summarize_text(text: str) -> str:
     """
     try:
         response = client.models.generate_content(
-            model="gemini-1.5-flash-8b-001",
+            model="gemini-2.5-flash-preview-04-17-thinking",
             contents=f"""Summarize the following paper in a structured way.
             Explain the main points, methods, results, and conclusion.
             Avoid going into mathematical details:\n\n{text}"""

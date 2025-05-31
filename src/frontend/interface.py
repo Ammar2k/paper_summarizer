@@ -13,6 +13,9 @@ def process_pdf(file_obj):
     Returns:
         str: The summarized text from the PDF.
     """
+    # wait message while processing
+    yield "## Processing PDF... ⏲️"
+
     try:
         # Get the file path from the Gradio file object
         file_path = file_obj.name
@@ -24,12 +27,13 @@ def process_pdf(file_obj):
         # Extract text from the PDF bytes
         extracted_text = extract_text_from_pdf(pdf_content)
         if not extracted_text or extracted_text.startswith("Error"):
-            return "Error: Could not extract text from the PDF."
+            yield "Error: Could not extract text from the PDF."
+            return
 
         # Summarize the extracted text
         summary = summarize_text(extracted_text)
 
-        return summary
+        yield summary
     except Exception as e:
         return f"An error occurred: {e}"
     
@@ -37,7 +41,8 @@ def process_pdf(file_obj):
 interface = gr.Interface(
     fn=process_pdf,
     inputs=gr.File(label="Upload a PDF"),
-    outputs=gr.Textbox(label="Summarized Text"),
+    outputs=gr.Markdown(
+        label="Summarized Text"),
     title="Paper Simplifier",
     description="Upload a PDF file and get a summarized version of its content.",
 )
