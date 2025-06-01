@@ -22,9 +22,9 @@ def summarize_text(text: str) -> str:
             model="gemini-2.5-flash-preview-04-17-thinking",
             contents=f"""Summarize the following paper in a structured way.
             Explain the main points, methods, results, and conclusion.
+            Also mention (if present) 2-3 key references to other works.
             Avoid going into mathematical details:\n\n{text}"""
         )
-        # print(text)
         return response.text.strip()
     except Exception as e:
         print(f"An error occurred while summarizing the text: {e}")
