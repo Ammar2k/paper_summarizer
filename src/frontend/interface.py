@@ -29,7 +29,7 @@ def process_pdf(file_obj):
         with open(file_path, "rb") as f:
             # Extracting the original filename for the backend
             original_filename = file_path.split('/')[-1]
-            files = {"file": (original_filename, f, "application/pdf")}
+            files = {"file": (original_filename, f)}
             response = requests.post(backend_url, files=files, timeout=300)
 
         response.raise_for_status()
