@@ -43,7 +43,9 @@ def process_pdf(file_obj):
         
         data = response.json()
         if "summary" in data:
-            yield data["summary"]
+            # set the flag to true
+            pdf_uploaded = True
+            yield f"## Summary\n\n{data['summary']}\n\n---\n\nYou can now ask questions about this paper in the Q&A tab."
         elif "error" in data:
             yield f"Error from backend: {data['error']}"
         else:

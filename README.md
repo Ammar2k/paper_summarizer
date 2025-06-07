@@ -64,7 +64,7 @@ paper_simplifier
 The application allows users to upload PDF files of academic papers. It extracts the text from the PDF using PyMuPDF and provides a summarized version of the content. Users can interact with the application through a chat interface, asking questions and receiving responses based on the summarized content.
 
 ## To-do list
-- [ ] create a chat interface
-- [ ] add memory to the chatbot
+- [x] create a chat interface
+- [x] add memory to the chatbot
 - [ ] create personas for the LLM
 - [ ] experiment a scenario where two LLMs with different persona discuss the paper
