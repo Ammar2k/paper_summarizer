@@ -29,3 +29,31 @@ def summarize_text(text: str) -> str:
     except Exception as e:
         print(f"An error occurred while summarizing the text: {e}")
         return "Error: Unable to summarize the text."
+    
+
+def answer_question(pdf_text: str, question: str) -> str:
+    """
+    Answers a question based on the provided PDF text using Google Gemini.
+
+    Args:
+        pdf_text (str): The text extracted from the PDF.
+        question (str): The question to answer.
+
+    Returns:
+        str: The answer to the question.
+    """
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-preview-04-17-thinking",
+            contents=f"""Based on the following research paper, please answer this question: "{question}"
+            
+            Paper content:
+            {pdf_text}
+            
+            Provide a clear and specific answer based only on information in the paper.
+            If the answer isn't covered in the paper, say so honestly."""
+        )
+        return response.text.strip()
+    except Exception as e:
+        print(f"An error occurred while answering the question: {e}")
+        return "Error: Unable to answer the question."
