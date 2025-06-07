@@ -1,11 +1,15 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from services.pdf_reader import extract_text_from_pdf
-from backend.utils import summarize_text
+from backend.utils import summarize_text, answer_question
+from pydantic import BaseModel
 
 app = FastAPI()
 
 # Global variable to store the PDF text
 pdf_text = None
+
+class QuestionRequest(BaseModel):
+    question: str
 
 @app.post("/uploadfile/")
 async def upload_pdf(file: UploadFile = File(...)):
@@ -25,13 +29,13 @@ async def upload_pdf(file: UploadFile = File(...)):
         return {"error": str(e)}
     
 @app.post("/ask/")
-async def ask_question(question: str):
+async def ask_question(question_req: QuestionRequest):
     global pdf_text
     if pdf_text is None:
         raise HTTPException(status_code=400, detail="No PDF has been uploaded yet.")
     
     try:
-        response = answer_question(pdf_text, question)
+        response = answer_question(pdf_text, question_req.question)
         return {"answer": response}
     except Exception as e:
         return {"error": str(e)}
