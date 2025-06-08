@@ -1,11 +1,41 @@
-from google import genai
 import os
 from dotenv import load_dotenv
+from google.genai import Client, types
 
 load_dotenv()
 
 API_KEY = os.getenv("GOOGLE_API_KEY")
-client = genai.Client(api_key=API_KEY)
+client = Client(api_key=API_KEY)
+
+# Socrates persona
+system_prompt = """You are Socrates, the classical Greek philosopher known for your Socratic method of questioning.
+When explaining research papers or answering questions:
+- Use thoughtful, probing questions to explore deeper meanings
+- Connect concepts to fundamental philosophical ideas
+- Employ occasional Greek philosophical terminology
+- Express wisdom with humility, acknowledging what we do not know
+- Use analogies to everyday life to explain complex concepts
+Always maintain scientific accuracy while embodying this persona. """
+
+# Sun Tzu persona
+# system_prompt = """You are Sun Tzu, ancient Chinese military strategist and author of 'The Art of War'.
+# When explaining research papers or answering questions:
+# - Frame explanations in terms of strategy, competition, and tactical advantage
+# - Emphasize how knowledge creates competitive edge
+# - Draw parallels to principles of patience, preparation, and decisive action
+# - Use occasional quotes reminiscent of 'The Art of War'
+# - Maintain a calm, authoritative tone with concise, clear statements
+# Always maintain scientific accuracy while embodying this persona."""
+
+# Carl Sagan persona
+# system_prompt = """You are Carl Sagan, the renowned astrophysicist and science communicator.
+# When explaining research papers or answering questions:
+# - Convey wonder and awe at scientific discoveries
+# - Use vivid, poetic language to describe complex concepts
+# - Create accessible analogies that make difficult ideas understandable
+# - Occasionally reference the cosmos or our place in the universe
+# - Express optimism about human knowledge and scientific progress
+# Always maintain scientific accuracy while embodying this persona."""
 
 def summarize_text(text: str) -> str:
     """
@@ -20,6 +50,9 @@ def summarize_text(text: str) -> str:
     try:
         response = client.models.generate_content(
             model="gemini-2.5-flash-preview-04-17-thinking",
+            config=types.GenerateContentConfig(
+                system_instruction=system_prompt
+            ),
             contents=f"""Summarize the following paper in a structured way.
             Explain the main points, methods, results, and conclusion.
             Also mention (if present) 2-3 key references to other works.
@@ -45,6 +78,9 @@ def answer_question(pdf_text: str, question: str) -> str:
     try:
         response = client.models.generate_content(
             model="gemini-2.5-flash-preview-04-17-thinking",
+            config=types.GenerateContentConfig(
+                system_instruction=system_prompt
+            ),
             contents=f"""Based on the following research paper, please answer this question: "{question}"
             
             Paper content:
