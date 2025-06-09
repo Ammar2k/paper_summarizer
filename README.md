@@ -66,5 +66,5 @@ The application allows users to upload PDF files of academic papers. It extracts
 ## To-do list
 - [x] create a chat interface
 - [x] add memory to the chatbot
-- [ ] create personas for the LLM
+- [x] create personas for the LLM
 - [ ] experiment a scenario where two LLMs with different persona discuss the paper
