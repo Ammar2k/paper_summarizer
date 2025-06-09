@@ -1,7 +1,5 @@
 import gradio as gr
 import requests
-from backend.utils import summarize_text
-from services.pdf_reader import extract_text_from_pdf
 
 # Track if the PDF has been uploaded successfully
 pdf_uploaded = False
