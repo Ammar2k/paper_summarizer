@@ -97,7 +97,7 @@ def ask_question(question, history):
     return history + [(question, answer)]
 
 
-def generation_discussion(persona1, persona2):
+def generate_discussion(persona1, persona2):
     """
     Generates a simulated discussion between two AI personas about the uploaded paper.
     
@@ -115,7 +115,7 @@ def generation_discussion(persona1, persona2):
 
     try:
         response = requests.post(
-            "http://127.0.1:8000/discuss/",
+            "http://127.0.0.1:8000/discuss/",
             json={"persona1": persona1, "persona2": persona2},
             timeout=120 # since it might take longer for discussion generation
         )
@@ -189,7 +189,7 @@ with gr.Blocks(title="Paper Simplifier") as interface:
             discussion_output = gr.Markdown()
 
             generate_button.click(
-                fn=generation_discussion,
+                fn=generate_discussion,
                 inputs=[persona1, persona2],
                 outputs=discussion_output
             )
