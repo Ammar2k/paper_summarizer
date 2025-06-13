@@ -126,6 +126,8 @@ def generation_discussion(persona1, persona2):
             return data["discussion"]
         else:
             return f"Error: {data.get('error', 'No discussion generated.')}"
+    except Exception as e:
+        return f"Error generation discussion: {str(e)}"
 
     
 # Gradio interface with tabs
