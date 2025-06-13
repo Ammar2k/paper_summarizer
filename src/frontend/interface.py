@@ -188,8 +188,14 @@ with gr.Blocks(title="Paper Simplifier") as interface:
             generate_button = gr.Button("Generate Discussion", variant="primary")
             discussion_output = gr.Markdown()
 
+            # Add loading indicator
+            def generate_discussion_with_loading(persona1, persona2):
+                yield """## Generating discussion... ⏲️"""
+                result = generate_discussion(persona1, persona2)
+                yield result
+
             generate_button.click(
-                fn=generate_discussion,
+                fn=generate_discussion_with_loading,
                 inputs=[persona1, persona2],
                 outputs=discussion_output
             )

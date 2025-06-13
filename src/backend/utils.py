@@ -127,7 +127,7 @@ def create_discussion(pdf_text: str, persona1_name: str, persona1_desc: str,
         and {persona2_name} ({persona2_desc}).
         
         The discussion should have:
-        1. Three exchanges between both personas (each speaks 3 times)
+        1. Back and forth dialogue where each persona responds to the other's points.
         2. A final concluding statement where both share their final thoughts
         
         Each persona should maintain their distinct speaking style and philosophical perspective while 
