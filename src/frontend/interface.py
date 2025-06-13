@@ -96,6 +96,37 @@ def ask_question(question, history):
 
     return history + [(question, answer)]
 
+
+def generation_discussion(persona1, persona2):
+    """
+    Generates a simulated discussion between two AI personas about the uploaded paper.
+    
+    Args:
+        persona1 (str): Name of the first persona
+        persona2 (str): Name of the second persona
+        
+    Returns:
+        str: Formatted conversation between the two personas
+    """
+    global pdf_uploaded
+
+    if not pdf_uploaded:
+        return "Please upload a PDF first."
+
+    try:
+        response = requests.post(
+            "http://127.0.1:8000/discuss/",
+            json={"persona1": persona1, "persona2": persona2},
+            timeout=120 # since it might take longer for discussion generation
+        )
+        response.raise_for_status()
+
+        data = response.json()
+        if "discussion" in data:
+            return data["discussion"]
+        else:
+            return f"Error: {data.get('error', 'No discussion generated.')}"
+
     
 # Gradio interface with tabs
 with gr.Blocks(title="Paper Simplifier") as interface:
@@ -136,6 +167,29 @@ with gr.Blocks(title="Paper Simplifier") as interface:
                 fn=ask_question,
                 inputs=[question_input, chatbot],
                 outputs=chatbot
+            )
+
+        with gr.Tab("AI Discussion"):
+            gr.Markdown("### Simulated Discussion between AI Personas")
+            with gr.Row():
+                persona1 = gr.Dropdown(
+                    choices=["Socrates", "Sun Tzu", "Carl Sagan"],
+                    label="First Discussant",
+                    value="Socrates"
+                )
+                persona2 = gr.Dropdown(
+                    choices=["Socrates", "Sun Tzu", "Carl Sagan"],
+                    label="Second Discussant",
+                    value="Sun Tzu"
+                )
+                
+            generate_button = gr.Button("Generate Discussion", variant="primary")
+            discussion_output = gr.Markdown()
+
+            generate_button.click(
+                fn=generation_discussion,
+                inputs=[persona1, persona2],
+                outputs=discussion_output
             )
 
 if __name__ == "__main__":
