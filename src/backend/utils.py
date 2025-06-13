@@ -104,3 +104,46 @@ def answer_question(pdf_text: str, question: str) -> str:
     except Exception as e:
         print(f"An error occurred while answering the question: {e}")
         return "Error: Unable to answer the question."
+    
+
+def create_discussion(pdf_text: str, persona1_name: str, persona1_desc: str,
+                      persona2_name: str, persona2_desc: str) -> str:
+    """
+    Creates a simulated discussion between two personas about a paper.
+    
+    Args:
+        pdf_text (str): The text extracted from the PDF
+        persona1_name (str): Name of the first persona
+        persona1_desc (str): Description of the first persona
+        persona2_name (str): Name of the second persona
+        persona2_desc (str): Description of the second persona
+        
+    Returns:
+        str: Formatted discussion between the two personas
+    """
+    try:
+        prompt = f"""
+        Based on the following research paper, create an intellectual discussion between {persona1_name} ({persona1_desc}) 
+        and {persona2_name} ({persona2_desc}).
+        
+        The discussion should have:
+        1. Three exchanges between both personas (each speaks 3 times)
+        2. A final concluding statement where both share their final thoughts
+        
+        Each persona should maintain their distinct speaking style and philosophical perspective while 
+        discussing the key ideas, methods, implications, and possible criticisms of the paper.
+        
+        Format the discussion clearly with the speaker's name preceding their words.
+        
+        Paper content:
+        {pdf_text}
+        """
+        
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-preview-04-17-thinking",
+            contents=prompt
+        )
+        return response.text.strip()
+    except Exception as e:
+        print(f"An error occurred while creating the discussion: {e}")
+        return f"Error: Unable to generate discussion. {str(e)}"
